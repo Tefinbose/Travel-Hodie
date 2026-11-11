@@ -4,12 +4,9 @@ import { ArrowRight, Compass } from "lucide-react";
 
 export default function HolidaysCTA() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-6 py-12 text-center text-white shadow-2xl sm:py-16">
-      <div className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-      <div className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full bg-black/10 blur-2xl" />
-
+    <section className="relative overflow-hidden bg-gradient-to-r from-red-600 via-rose-600 to-red-700 px-6 py-8 text-center text-white shadow-2xl sm:py-10 md:py-12">
       <div className="relative z-10 mx-auto max-w-3xl">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-50 backdrop-blur-md">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-50">
           <Compass size={13} className="text-white" />
           Your Journey Starts Here
         </span>

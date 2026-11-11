@@ -38,22 +38,22 @@ export default function FeaturedPackages({
       <div className="pointer-events-none absolute -left-32 top-16 -z-10 h-80 w-80 rounded-full bg-red-100/60 blur-3xl" />
       <div className="pointer-events-none absolute -right-32 bottom-10 -z-10 h-80 w-80 rounded-full bg-sky-100/60 blur-3xl" />
 
-      <div className="mx-auto w-full max-w-7xl px-5 py-14 sm:py-16 md:px-8">
+      <div className="mx-auto w-full max-w-7xl px-5 py-8 sm:py-10 md:px-8 md:py-12">
         {/* Heading */}
-        <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end md:mb-12">
+        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end md:mb-8">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center rounded-full border border-red-100 bg-red-50/80 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-red-600">
+            <span className="inline-flex items-center rounded-full border border-red-100 bg-red-50/80 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-600">
               Handpicked Experiences
             </span>
 
-            <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-[#101c32] sm:text-4xl md:text-[2.75rem] md:leading-[1.15]">
+            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-[#101c32] sm:text-3xl md:text-4xl">
               Featured{" "}
               <span className="bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">
                 Holiday Packages
               </span>
             </h2>
 
-            <p className="mt-4 text-base leading-7 text-slate-500">
+            <p className="mt-2 text-xs sm:text-sm md:text-base leading-relaxed text-slate-500">
               Discover carefully selected journeys for every kind of traveller.
             </p>
           </div>

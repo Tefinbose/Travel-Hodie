@@ -1,3 +1,4 @@
+import { Search, MapPin, RotateCcw } from "lucide-react";
 
 interface DestinationOption {
   name: string;
@@ -19,31 +20,35 @@ export default function PackageFilters({
     <form
       action="/holidays"
       method="GET"
-      className="grid gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1fr_1fr_auto_auto]"
+      className="grid gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-[0_4px_25px_rgba(0,0,0,0.04)] md:grid-cols-[1.2fr_1fr_auto_auto] items-end"
     >
       <div>
         <label
           htmlFor="search"
-          className="mb-2 block text-sm font-semibold text-gray-700"
+          className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500"
         >
-          Search holidays
+          <Search size={13} className="text-red-500" />
+          Search Holidays
         </label>
 
-        <input
-          id="search"
-          type="search"
-          name="search"
-          defaultValue={search}
-          placeholder="Search packages or destinations"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-red-500"
-        />
+        <div className="relative">
+          <input
+            id="search"
+            type="search"
+            name="search"
+            defaultValue={search}
+            placeholder="Search package name, city..."
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs sm:text-sm text-[#101c32] outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:bg-white"
+          />
+        </div>
       </div>
 
       <div>
         <label
           htmlFor="destination"
-          className="mb-2 block text-sm font-semibold text-gray-700"
+          className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500"
         >
+          <MapPin size={13} className="text-red-500" />
           Destination
         </label>
 
@@ -51,9 +56,9 @@ export default function PackageFilters({
           id="destination"
           name="destination"
           defaultValue={selectedDestination}
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-red-500"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs sm:text-sm text-[#101c32] outline-none transition focus:border-red-500 focus:bg-white"
         >
-          <option value="">All destinations</option>
+          <option value="">All Destinations</option>
 
           {destinations.map((destination) => (
             <option key={destination.slug} value={destination.slug}>
@@ -63,20 +68,22 @@ export default function PackageFilters({
         </select>
       </div>
 
-      <div className="flex items-end">
+      <div>
         <button
           type="submit"
-          className="w-full rounded-lg bg-[#071a35] px-7 py-3 font-semibold text-white transition hover:bg-red-600"
+          className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-red-600 px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-red-950/20 transition hover:-translate-y-0.5 hover:bg-red-500 active:scale-[0.98]"
         >
+          <Search size={14} />
           Search
         </button>
       </div>
 
-      <div className="flex items-end">
+      <div>
         <a
           href="/holidays"
-          className="w-full rounded-lg border border-gray-300 px-7 py-3 text-center font-semibold text-gray-700 transition hover:bg-gray-100"
+          className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs sm:text-sm font-semibold text-slate-600 transition hover:bg-slate-50 active:scale-[0.98]"
         >
+          <RotateCcw size={13} />
           Reset
         </a>
       </div>

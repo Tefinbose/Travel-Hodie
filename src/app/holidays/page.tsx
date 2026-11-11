@@ -102,23 +102,23 @@ export default async function HolidaysPage({
   }));
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-white">
       <HolidaysHero />
 
       <section
         id="holiday-packages"
-        className="mx-auto max-w-7xl px-6 py-16"
+        className="mx-auto max-w-7xl px-5 py-8 sm:py-10 md:px-8 md:py-12"
       >
-        <div className="mb-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-600">
+        <div className="mb-6 sm:mb-8">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
             Explore our collection
-          </p>
+          </span>
 
-          <h2 className="mt-3 text-3xl font-bold text-[#071a35] md:text-4xl">
+          <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[#101c32] sm:text-3xl md:text-4xl">
             Find Your Perfect Holiday
           </h2>
 
-          <p className="mt-4 max-w-2xl leading-7 text-gray-600">
+          <p className="mt-2 max-w-2xl text-xs sm:text-sm md:text-base leading-relaxed text-slate-500">
             From relaxing beach escapes to exciting international adventures,
             find a holiday package that suits your travel plans.
           </p>
@@ -130,12 +130,12 @@ export default async function HolidaysPage({
           selectedDestination={selectedDestination}
         />
 
-        <div className="mb-7 mt-10 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-[#071a35]">
+        <div className="mb-5 mt-6 sm:mt-8 flex items-center justify-between">
+          <h3 className="text-lg sm:text-xl font-extrabold text-[#101c32]">
             Available Packages
           </h3>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-slate-400 font-medium">
             {packages.length} {packages.length === 1 ? "package" : "packages"} found
           </p>
         </div>
