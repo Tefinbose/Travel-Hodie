@@ -31,53 +31,62 @@ export default async function HolidaysPage({
   const search = params.search?.trim() || "";
   const selectedDestination = params.destination?.trim() || "";
 
-  const [packages, destinations] = await Promise.all([
-    prisma.package.findMany({
-      where: {
-        isActive: true,
-        destination: {
+  let packages: any[] = [];
+  let destinations: { name: string; slug: string }[] = [];
+
+  try {
+    const results = await Promise.all([
+      prisma.package.findMany({
+        where: {
           isActive: true,
-          ...(selectedDestination ? { slug: selectedDestination } : {}),
-        },
-        ...(search
-          ? {
-              OR: [
-                { title: { contains: search } },
-                { shortDescription: { contains: search } },
-                {
-                  destination: {
-                    name: { contains: search },
+          destination: {
+            isActive: true,
+            ...(selectedDestination ? { slug: selectedDestination } : {}),
+          },
+          ...(search
+            ? {
+                OR: [
+                  { title: { contains: search } },
+                  { shortDescription: { contains: search } },
+                  {
+                    destination: {
+                      name: { contains: search },
+                    },
                   },
-                },
-              ],
-            }
-          : {}),
-      },
-      include: {
-        destination: {
-          select: {
-            name: true,
+                ],
+              }
+            : {}),
+        },
+        include: {
+          destination: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
 
-    prisma.destination.findMany({
-      where: {
-        isActive: true,
-      },
-      select: {
-        name: true,
-        slug: true,
-      },
-      orderBy: {
-        name: "asc",
-      },
-    }),
-  ]);
+      prisma.destination.findMany({
+        where: {
+          isActive: true,
+        },
+        select: {
+          name: true,
+          slug: true,
+        },
+        orderBy: {
+          name: "asc",
+        },
+      }),
+    ]);
+    packages = results[0];
+    destinations = results[1];
+  } catch (error) {
+    console.error("Database unavailable on HolidaysPage:", error);
+  }
 
   const packageData = packages.map((item) => ({
     id: item.id,

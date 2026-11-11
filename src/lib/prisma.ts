@@ -1,4 +1,3 @@
-
 import "dotenv/config";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "../../generated/prisma/client";
@@ -7,6 +6,10 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+const isCloudHost =
+  process.env.DB_SSL === "true" ||
+  Boolean(process.env.DB_HOST && process.env.DB_HOST.includes("tidbcloud.com"));
+
 const adapter = new PrismaMariaDb({
   host: process.env.DB_HOST || "127.0.0.1",
   port: Number(process.env.DB_PORT || 3306),
@@ -14,8 +17,16 @@ const adapter = new PrismaMariaDb({
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "travelhodie",
   connectionLimit: 5,
-  connectTimeout: 10000,
-  acquireTimeout: 10000,
+  connectTimeout: 15000,
+  acquireTimeout: 15000,
+  ...(isCloudHost
+    ? {
+        ssl: {
+          minVersion: "TLSv1.2",
+          rejectUnauthorized: true,
+        },
+      }
+    : {}),
 });
 
 export const prisma =

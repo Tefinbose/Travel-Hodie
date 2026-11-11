@@ -16,25 +16,31 @@ export const metadata: Metadata = {
 
 export default async function DestinationsPage() {
   await connection();
-  const destinations = await prisma.destination.findMany({
-    where: {
-      isActive: true,
-    },
-    include: {
-      _count: {
-        select: {
-          packages: {
-            where: {
-              isActive: true,
+  let destinations: any[] = [];
+
+  try {
+    destinations = await prisma.destination.findMany({
+      where: {
+        isActive: true,
+      },
+      include: {
+        _count: {
+          select: {
+            packages: {
+              where: {
+                isActive: true,
+              },
             },
           },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Database unavailable on DestinationsPage:", error);
+  }
 
   const destinationData = destinations.map((destination) => ({
     id: destination.id,
@@ -42,7 +48,7 @@ export default async function DestinationsPage() {
     slug: destination.slug,
     country: destination.country,
     image: destination.image,
-    packageCount: destination._count.packages,
+    packageCount: destination._count?.packages ?? 0,
   }));
 
   return (
