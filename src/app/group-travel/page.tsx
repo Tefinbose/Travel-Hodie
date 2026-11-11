@@ -10,7 +10,8 @@ export default function GroupTravelPage() {
   return (
     <ServicePage
       eyebrow="Group Travel"
-      title="Unforgettable Journeys, Better Together."
+      title="Unforgettable Journeys,"
+      titleHighlight="Better Together."
       description="Plan tailor-made group holidays, corporate retreats, educational journeys, and family reunions with TravelHodie's dedicated group travel experts."
       heroImage="/images/landing/group-travel-scenic.jpg"
       benefits={[

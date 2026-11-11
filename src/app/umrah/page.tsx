@@ -11,7 +11,8 @@ export default function UmrahPage() {
   return (
     <ServicePage
       eyebrow="Umrah Travel Services"
-      title="A Meaningful Journey. Thoughtfully Planned."
+      title="A Meaningful Journey."
+      titleHighlight="Thoughtfully Planned."
       description="Plan your Umrah journey with assistance for travel arrangements, accommodation enquiries and other essential trip requirements."
       heroImage="/images/landing/umrah-makkah-spiritual.jpg"
       benefits={[

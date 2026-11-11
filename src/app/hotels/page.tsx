@@ -11,7 +11,8 @@ export default function HotelsPage() {
   return (
     <ServicePage
       eyebrow="Hotel Reservation Services"
-      title="Find Your Perfect Stay."
+      title="Find Your"
+      titleHighlight="Perfect Stay."
       description="From comfortable family stays to premium holiday accommodation, get assistance finding a stay that suits your destination, preferences and budget."
       heroImage="/images/landing/hotels-luxury-resort.jpg"
       benefits={[

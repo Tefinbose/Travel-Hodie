@@ -11,7 +11,8 @@ export default function VisaPage() {
   return (
     <ServicePage
       eyebrow="Visa Assistance"
-      title="Prepare for Your International Journey."
+      title="Prepare for Your"
+      titleHighlight="International Journey."
       description="Understand the visa application process with assistance from our travel team. Get guidance on documentation, application requirements and the next steps for your intended destination."
       heroImage="/images/scrapbook/boarding-pass-passport-stamps.jpg"
       benefits={[

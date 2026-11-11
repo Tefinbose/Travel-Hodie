@@ -11,7 +11,8 @@ export default function PassportPage() {
   return (
     <ServicePage
       eyebrow="Passport Assistance"
-      title="Get Ready for Your Next Journey."
+      title="Get Ready for"
+      titleHighlight="Your Next Journey."
       description="Need help understanding passport application or renewal procedures? Our team can guide you through general documentation requirements and the applicable application process."
       heroImage="/images/scrapbook/boarding-pass-passport-stamps.jpg"
       benefits={[

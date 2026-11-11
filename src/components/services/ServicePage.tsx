@@ -23,6 +23,7 @@ import {
 interface ServicePageProps {
   eyebrow?: string;
   title: string;
+  titleHighlight?: string;
   description: string;
   heroImage?: string;
   benefits: string[];
@@ -53,6 +54,7 @@ const OTHER_SERVICES = [
 
 export default function ServicePage({
   title,
+  titleHighlight,
   description,
   heroImage,
   benefits,
@@ -60,6 +62,22 @@ export default function ServicePage({
   ctaTitle,
   ctaDescription,
 }: ServicePageProps) {
+  // If titleHighlight is not explicitly passed, try to extract last phrase or sentence
+  let mainTitle = title;
+  let highlight = titleHighlight;
+
+  if (!highlight && title) {
+    if (title.includes(".")) {
+      const parts = title.split(".");
+      mainTitle = parts[0] + ".";
+      highlight = parts.slice(1).join(".").trim();
+    } else if (title.includes(",")) {
+      const parts = title.split(",");
+      mainTitle = parts[0] + ",";
+      highlight = parts.slice(1).join(",").trim();
+    }
+  }
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -82,7 +100,12 @@ export default function ServicePage({
 
         <div className="relative z-10 mx-auto max-w-4xl px-5 md:px-8">
           <h1 className="mx-auto max-w-3xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[42px] leading-tight md:leading-[1.18]">
-            {title}
+            {mainTitle}{" "}
+            {highlight && (
+              <span className="bg-gradient-to-r from-red-500 via-rose-400 to-orange-300 bg-clip-text text-transparent">
+                {highlight}
+              </span>
+            )}
           </h1>
 
           <p className="mx-auto mt-3 max-w-2xl text-xs sm:text-sm md:text-[15px] leading-relaxed text-slate-300">

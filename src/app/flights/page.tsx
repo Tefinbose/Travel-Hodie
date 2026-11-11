@@ -11,7 +11,8 @@ export default function FlightsPage() {
   return (
     <ServicePage
       eyebrow="Flight Booking Services"
-      title="Fly Anywhere. Travel Without Limits."
+      title="Fly Anywhere."
+      titleHighlight="Travel Without Limits."
       description="Plan your next journey with flight booking assistance for domestic and international destinations. Let our team help you explore suitable travel options."
       heroImage="/images/hero-airplane-island.jpg"
       benefits={[

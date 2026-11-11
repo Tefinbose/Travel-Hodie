@@ -15,13 +15,9 @@ export default function ContactHero() {
           sizes="100vw"
           className="object-cover object-center brightness-[0.85] contrast-[1.05]"
         />
-        {/* Scrim providing high legibility for centered text while keeping scenic background visible */}
+        {/* Scrim providing high legibility for centered text while keeping scenic background sharp */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#071324]/80 via-[#071324]/60 to-[#071324]/85" />
       </div>
-
-      {/* Ambient glow */}
-      <div className="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-red-600/20 blur-3xl" />
-      <div className="pointer-events-none absolute -left-32 -bottom-32 h-72 w-72 rounded-full bg-red-600/15 blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-5 md:px-8">
         <h1 className="mx-auto max-w-3xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[42px] leading-tight md:leading-[1.18]">

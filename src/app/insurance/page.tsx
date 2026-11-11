@@ -11,7 +11,8 @@ export default function InsurancePage() {
   return (
     <ServicePage
       eyebrow="Travel Insurance Assistance"
-      title="Travel With Greater Peace of Mind."
+      title="Travel With"
+      titleHighlight="Greater Peace of Mind."
       description="Understand travel insurance options for your upcoming journey. Our team can help you explore available plans and understand their coverage and conditions."
       heroImage="/images/hero/alpine-peaks-twilight.jpg"
       benefits={[
