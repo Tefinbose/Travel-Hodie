@@ -145,7 +145,7 @@ export default function EditDestinationPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-slate-50">
+      <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
         <AdminSidebar />
         <main className="flex min-w-0 flex-1 items-center justify-center p-6 lg:p-10">
           <div className="text-center">
@@ -159,7 +159,7 @@ export default function EditDestinationPage() {
 
   if (error && !form.name) {
     return (
-      <div className="flex min-h-screen bg-slate-50">
+      <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
         <AdminSidebar />
         <main className="min-w-0 flex-1 p-6 lg:p-10">
           <div className="mx-auto max-w-2xl rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
@@ -188,7 +188,7 @@ export default function EditDestinationPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
       <AdminSidebar />
 
       <main className="min-w-0 flex-1 p-6 lg:p-10">

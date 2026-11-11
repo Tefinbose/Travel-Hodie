@@ -153,19 +153,19 @@ export default function BookingDetailsPage() {
   function getStatusStyle(status: string) {
     switch (status) {
       case "CONFIRMED":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-50 text-emerald-700 border border-emerald-200";
       case "CANCELLED":
-        return "bg-red-100 text-red-700";
+        return "bg-rose-50 text-rose-700 border border-rose-200";
       case "COMPLETED":
-        return "bg-blue-100 text-blue-700";
+        return "bg-sky-50 text-sky-700 border border-sky-200";
       default:
-        return "bg-amber-100 text-amber-700";
+        return "bg-amber-50 text-amber-700 border border-amber-200";
     }
   }
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-slate-50">
+      <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
         <AdminSidebar />
         <main className="flex min-w-0 flex-1 items-center justify-center p-6 lg:p-10">
           <div className="text-center">
@@ -179,7 +179,7 @@ export default function BookingDetailsPage() {
 
   if (error && !booking) {
     return (
-      <div className="flex min-h-screen bg-slate-50">
+      <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
         <AdminSidebar />
         <main className="min-w-0 flex-1 p-6 lg:p-10">
           <div className="mx-auto max-w-2xl rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
@@ -210,7 +210,7 @@ export default function BookingDetailsPage() {
   if (!booking) return null;
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
       <AdminSidebar />
 
       <main className="min-w-0 flex-1 p-6 lg:p-10">

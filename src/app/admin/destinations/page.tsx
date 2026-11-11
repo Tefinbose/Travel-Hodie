@@ -86,32 +86,34 @@ export default function AdminDestinationsPage() {
   const featuredDestinations = destinations.filter((d) => d.isFeatured).length;
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50 lg:flex-row">
       <AdminSidebar />
 
-      <main className="min-w-0 flex-1 p-6 lg:p-10">
-        <div className="mx-auto max-w-7xl">
+      <main className="min-w-0 flex-1 p-5 sm:p-8 lg:p-10">
+        <div className="mx-auto max-w-7xl space-y-6">
           {/* Header */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <p className="inline-flex items-center text-sm font-medium text-red-600">
-                <Plane size={15} className="mr-1.5" />
-                TravelHodie Administration
-              </p>
-              <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center rounded-md bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-700">
+                  Global Directory
+                </span>
+                <span className="text-xs text-slate-400">TravelHodie</span>
+              </div>
+              <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
                 Destinations
               </h1>
               <p className="mt-1 text-sm text-slate-500">
-                View and manage your travel destinations.
+                View and manage travel regions, countries, and destination landing pages.
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               <Link
                 href="/admin/destinations/new"
-                className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-red-700"
               >
-                <Plus size={18} />
+                <Plus size={15} />
                 Add New Destination
               </Link>
 
@@ -119,10 +121,10 @@ export default function AdminDestinationsPage() {
                 type="button"
                 onClick={loadDestinations}
                 disabled={loading}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <RefreshCw
-                  size={16}
+                  size={14}
                   className={loading ? "animate-spin" : ""}
                 />
                 Refresh
@@ -131,38 +133,38 @@ export default function AdminDestinationsPage() {
           </div>
 
           {/* Statistics */}
-          <div className="mb-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-blue-100 p-3 text-blue-600">
-                  <Globe size={22} />
+                <div className="rounded-xl bg-blue-50 p-2.5 text-blue-600">
+                  <Globe size={20} />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500">Total Destinations</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Destinations</p>
                   <p className="text-2xl font-bold text-slate-900">{totalDestinations}</p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-green-100 p-3 text-green-600">
-                  <CheckCircle size={22} />
+                <div className="rounded-xl bg-emerald-50 p-2.5 text-emerald-600">
+                  <CheckCircle size={20} />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500">Active Destinations</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Active Destinations</p>
                   <p className="text-2xl font-bold text-slate-900">{activeDestinations}</p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-amber-100 p-3 text-amber-600">
-                  <Star size={22} />
+                <div className="rounded-xl bg-amber-50 p-2.5 text-amber-600">
+                  <Star size={20} />
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500">Featured Destinations</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Featured Destinations</p>
                   <p className="text-2xl font-bold text-slate-900">{featuredDestinations}</p>
                 </div>
               </div>
@@ -176,34 +178,34 @@ export default function AdminDestinationsPage() {
                 <h2 className="font-bold text-slate-900">
                   All Destinations
                 </h2>
-                <p className="mt-0.5 text-sm text-slate-500">
-                  Destinations currently stored in your database.
+                <p className="mt-0.5 text-xs text-slate-500">
+                  Destinations currently configured for package itineraries
                 </p>
               </div>
 
               <div className="relative w-full sm:w-64">
                 <Search
-                  size={17}
+                  size={15}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
                 />
                 <input
                   type="search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Search destinations..."
-                  className="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-red-500"
+                  placeholder="Search destinations or countries..."
+                  className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-xs text-slate-800 outline-none transition focus:border-red-500"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="m-5 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              <div className="m-5 rounded-lg border border-red-200 bg-red-50 p-4 text-xs text-red-700">
                 <p className="font-semibold">Unable to load destinations</p>
                 <p className="mt-1">{error}</p>
                 <button
                   type="button"
                   onClick={loadDestinations}
-                  className="mt-3 font-semibold underline"
+                  className="mt-2 font-semibold underline"
                 >
                   Try again
                 </button>
@@ -212,14 +214,12 @@ export default function AdminDestinationsPage() {
 
             {loading ? (
               <div className="flex min-h-56 items-center justify-center">
-                <div className="text-center">
+                <div className="text-center text-xs text-slate-500">
                   <RefreshCw
-                    size={25}
-                    className="mx-auto animate-spin text-red-700"
+                    size={24}
+                    className="mx-auto mb-2 animate-spin text-red-600"
                   />
-                  <p className="mt-3 text-sm text-slate-500">
-                    Loading destinations...
-                  </p>
+                  <p>Loading destinations...</p>
                 </div>
               </div>
             ) : !error && filteredDestinations.length === 0 ? (
@@ -228,10 +228,10 @@ export default function AdminDestinationsPage() {
                   size={36}
                   className="mx-auto text-slate-300"
                 />
-                <h3 className="mt-4 font-semibold text-slate-800">
+                <h3 className="mt-3 font-semibold text-slate-800 text-sm">
                   {search ? "No matching destinations" : "No destinations found"}
                 </h3>
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-1 text-xs text-slate-500">
                   {search
                     ? "Try searching with another name or country."
                     : "Add destination records to your database to see them here."}
@@ -239,45 +239,15 @@ export default function AdminDestinationsPage() {
               </div>
             ) : !error ? (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-50/75 uppercase tracking-wider text-slate-500 font-semibold border-b border-slate-100">
                     <tr>
-                      <th className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5">
-                          <MapPin size={14} className="text-slate-400" />
-                          Destination
-                        </span>
-                      </th>
-                      <th className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Globe size={14} className="text-slate-400" />
-                          Country
-                        </span>
-                      </th>
-                      <th className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Package size={14} className="text-slate-400" />
-                          Packages
-                        </span>
-                      </th>
-                      <th className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Star size={14} className="text-slate-400" />
-                          Featured
-                        </span>
-                      </th>
-                      <th className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1.5">
-                          <CheckCircle size={14} className="text-slate-400" />
-                          Status
-                        </span>
-                      </th>
-                      <th className="px-6 py-4 text-right">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Settings2 size={14} className="text-slate-400" />
-                          Actions
-                        </span>
-                      </th>
+                      <th className="px-6 py-3.5">Destination</th>
+                      <th className="px-6 py-3.5">Country</th>
+                      <th className="px-6 py-3.5">Linked Packages</th>
+                      <th className="px-6 py-3.5">Featured</th>
+                      <th className="px-6 py-3.5">Status</th>
+                      <th className="px-6 py-3.5 text-right">Actions</th>
                     </tr>
                   </thead>
 
@@ -285,9 +255,9 @@ export default function AdminDestinationsPage() {
                     {filteredDestinations.map((destination) => (
                       <tr
                         key={destination.id}
-                        className="transition hover:bg-slate-50"
+                        className="transition hover:bg-slate-50/70"
                       >
-                        <td className="min-w-64 px-6 py-4">
+                        <td className="min-w-64 px-6 py-3.5">
                           <div className="flex items-center gap-3">
                             <div className="flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
                               {destination.image ? (
@@ -298,7 +268,7 @@ export default function AdminDestinationsPage() {
                                 />
                               ) : (
                                 <MapPin
-                                  size={20}
+                                  size={18}
                                   className="text-slate-400"
                                 />
                               )}
@@ -308,67 +278,66 @@ export default function AdminDestinationsPage() {
                               <p className="font-semibold text-slate-900">
                                 {destination.name}
                               </p>
-                              <p className="mt-0.5 text-xs text-slate-500">
-                                {destination.slug}
+                              <p className="mt-0.5 text-[11px] text-slate-500">
+                                /{destination.slug}
                               </p>
                             </div>
                           </div>
                         </td>
 
-                        <td className="whitespace-nowrap px-6 py-4 text-slate-600">
-                          <span className="inline-flex items-center gap-1.5">
+                        <td className="whitespace-nowrap px-6 py-3.5 text-slate-600">
+                          <span className="inline-flex items-center gap-1.5 font-medium">
                             <Globe size={13} className="text-slate-400" />
-                            {destination.country || "—"}
+                            {destination.country || "Not specified"}
                           </span>
                         </td>
 
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
-                            <Package size={13} className="text-slate-500" />
+                        <td className="whitespace-nowrap px-6 py-3.5">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-700">
+                            <Package size={12} className="text-slate-500" />
                             {destination._count?.packages ?? 0} {destination._count?.packages === 1 ? "package" : "packages"}
                           </span>
                         </td>
 
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-3.5">
                           {destination.isFeatured ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                              <Star size={12} />
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 border border-amber-200">
+                              <Star size={11} className="fill-amber-500 text-amber-500" />
                               Featured
                             </span>
                           ) : (
-                            <span className="text-slate-400">—</span>
+                            <span className="text-[11px] text-slate-400">Regular</span>
                           )}
                         </td>
 
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-3.5">
                           {destination.isActive ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
-                              <CheckCircle size={13} />
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
+                              <CheckCircle size={11} />
                               Active
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
-                              <XCircle size={13} />
+                            <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
                               Inactive
                             </span>
                           )}
                         </td>
 
-                        <td className="whitespace-nowrap px-6 py-4 text-right">
+                        <td className="whitespace-nowrap px-6 py-3.5 text-right">
                           <div className="flex items-center justify-end gap-2">
                             <Link
                               href={`/admin/destinations/${destination.id}/edit`}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                             >
-                              <Pencil size={13} />
+                              <Pencil size={12} />
                               Edit
                             </Link>
 
                             <Link
                               href={`/admin/packages?search=${encodeURIComponent(destination.name)}`}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
+                              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                             >
-                              <Package size={13} />
+                              <Package size={12} />
                               Packages
                             </Link>
                           </div>
@@ -380,17 +349,17 @@ export default function AdminDestinationsPage() {
               </div>
             ) : null}
 
-            <div className="border-t border-slate-200 px-5 py-4 text-sm text-slate-500">
+            <div className="border-t border-slate-200 px-5 py-3.5 text-xs text-slate-500">
               Showing {filteredDestinations.length} of {totalDestinations} destinations
             </div>
           </section>
 
-          <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 text-sm text-slate-500">
+          <div className="flex items-center justify-between border-t border-slate-200 pt-5 text-xs text-slate-500">
             <Link
               href="/admin"
               className="inline-flex items-center gap-1.5 font-medium text-red-600 hover:text-red-700"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={14} />
               Back to Dashboard
             </Link>
             <p>TravelHodie · Destination Management</p>
