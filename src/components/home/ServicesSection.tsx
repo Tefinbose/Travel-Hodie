@@ -96,7 +96,10 @@ export default function ServicesSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-white pt-3 pb-6 sm:pt-4 sm:pb-8 md:pt-4 md:pb-10">
+    <section
+      id="services-section"
+      className="relative overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-white pt-3 pb-6 sm:pt-4 sm:pb-8 md:pt-4 md:pb-10"
+    >
       {/* Decorative background blobs */}
       <div className="pointer-events-none absolute -left-24 top-6 h-60 w-60 rounded-full bg-red-100/50 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 bottom-0 h-60 w-60 rounded-full bg-sky-100/50 blur-3xl" />

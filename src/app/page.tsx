@@ -3,7 +3,6 @@ import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 import HeroSection from "@/components/home/HeroSection";
-import TravelSearchSection from "@/components/home/TravelSearchSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import FeaturedDestinations from "@/components/home/FeaturedDestinations";
 import FeaturedPackages from "@/components/home/FeaturedPackages";
@@ -97,8 +96,6 @@ export default async function HomePage() {
     <>
       <main className="overflow-hidden bg-white">
         <HeroSection />
-
-        <TravelSearchSection />
 
         <ServicesSection />
 

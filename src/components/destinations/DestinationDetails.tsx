@@ -22,33 +22,32 @@ export default function DestinationDetails({
     <main className="bg-white">
       {/* Destination hero */}
       <section
-        className="relative flex min-h-[420px] items-end bg-[#101D35] bg-cover bg-center"
+        className="relative flex min-h-[480px] md:min-h-[580px] items-end bg-[#101D35] bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(to top, rgba(16,29,53,0.95), rgba(16,29,53,0.3)), url("${
-            destination.image || "/images/hero/tropical-island-lagoon.jpg"
-          }")`,
+          backgroundImage: `linear-gradient(to top, rgba(16,29,53,0.95), rgba(16,29,53,0.3)), url("${destination.image || "/images/hero/tropical-island-lagoon.jpg"
+            }")`,
         }}
       >
-        <div className="mx-auto w-full max-w-7xl px-6 pb-16 pt-28 md:pt-36 text-white">
-          <Link
-            href="/destinations"
-            className="mb-6 inline-block text-sm font-medium text-gray-200 hover:text-white"
-          >
-            ← All Destinations
-          </Link>
+          <div className="mx-auto w-full max-w-7xl px-6 pb-20 pt-36 sm:pt-40 md:pt-44 md:pb-24 text-white">
+            <Link
+              href="/destinations"
+              className="mb-6 inline-block text-sm font-medium text-gray-200 hover:text-white"
+            >
+              ← All Destinations
+            </Link>
 
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#E6B85C]">
-            {destination.country || "Explore with TravelHodie"}
-          </p>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#E6B85C]">
+              {destination.country || "Explore with TravelHodie"}
+            </p>
 
-          <h1 className="mt-3 text-4xl font-bold md:text-6xl">
-            {destination.name}
-          </h1>
+            <h1 className="mt-3 text-4xl font-bold md:text-6xl">
+              {destination.name}
+            </h1>
 
-          <p className="mt-5 max-w-2xl leading-8 text-gray-200">
-            {destination.description}
-          </p>
-        </div>
+            <p className="mt-5 max-w-2xl leading-8 text-gray-200">
+              {destination.description}
+            </p>
+          </div>
       </section>
 
       {/* Packages */}

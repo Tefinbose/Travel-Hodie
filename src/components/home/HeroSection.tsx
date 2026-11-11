@@ -126,7 +126,9 @@ export default function HeroSection() {
   };
 
   const handleScrollDown = () => {
-    const target = document.getElementById("travel-search");
+    const target =
+      document.getElementById("services-section") ||
+      document.getElementById("featured-destinations");
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
     } else {
