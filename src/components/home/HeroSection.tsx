@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -81,6 +81,8 @@ const AUTOPLAY_INTERVAL = 7000; // ms
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const total = HERO_SLIDES.length;
 
@@ -89,18 +91,39 @@ export default function HeroSection() {
     [total]
   );
 
-  // Autoplay: a fresh 7s timer starts after every slide change (auto or manual),
-  // so clicking an arrow always gives the new slide its full 7 seconds.
-  // No hover-pause: the hero fills the screen, so the cursor is nearly always
-  // "hovering" it, which was what froze the slideshow.
-  useEffect(() => {
-    const id = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
-    return () => clearTimeout(id);
-  }, [currentSlide, nextSlide]);
   const prevSlide = useCallback(
     () => setCurrentSlide((prev) => (prev - 1 + total) % total),
     [total]
   );
+
+  // Autoplay: a fresh 7s timer starts after every slide change
+  useEffect(() => {
+    const id = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
+    return () => clearTimeout(id);
+  }, [currentSlide, nextSlide]);
+
+  // Touch Swipe handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const diffX = touchStartXRef.current - e.changedTouches[0].clientX;
+    const diffY = touchStartYRef.current - e.changedTouches[0].clientY;
+
+    // Horizontal swipe must be greater than vertical gesture
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
+      if (diffX > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
 
   const handleScrollDown = () => {
     const target = document.getElementById("travel-search");
@@ -116,13 +139,15 @@ export default function HeroSection() {
   return (
     <section
       aria-label="Hero carousel"
-      className={`${jakarta.className} relative h-screen min-h-[100dvh] max-h-[100dvh] w-full select-none overflow-hidden bg-slate-950`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className={`${jakarta.className} relative h-[100dvh] min-h-[560px] max-h-[100dvh] w-full select-none overflow-hidden bg-slate-950`}
     >
       <style>{`
-        @keyframes heroFadeUp   { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heroFadeUp   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heroFadeIn   { from { opacity: 0; } to { opacity: 1; } }
-        .hero-fade-up  { animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
-        .hero-fade-in  { animation: heroFadeIn 0.8s ease-out both; }
+        .hero-fade-up  { animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .hero-fade-in  { animation: heroFadeIn 0.7s ease-out both; }
         @media (prefers-reduced-motion: reduce) {
           .hero-fade-up, .hero-fade-in { animation: none; }
         }
@@ -150,9 +175,6 @@ export default function HeroSection() {
                   priority={index === 0}
                   quality={90}
                   sizes="100vw"
-                  // Slow zoom while active (alternating focus point per slide).
-                  // When inactive it holds its zoom during the fade-out, then
-                  // resets invisibly after the fade finishes (delay = fade time).
                   className={`h-full w-full object-cover object-center brightness-[0.96] contrast-[1.05] saturate-[1.08] transition-transform ease-out ${
                     index % 2 === 0 ? "origin-bottom-left" : "origin-top-right"
                   } ${
@@ -165,30 +187,31 @@ export default function HeroSection() {
             );
           })}
 
-          {/* Scrims for text contrast */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-40 bg-gradient-to-b from-black/80 via-black/35 to-transparent" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 z-20 h-[520px] w-[720px] rounded-full bg-black/55 blur-[110px]" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[65%] bg-gradient-to-t from-black/90 via-black/45 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.4)_100%)]" />
+          {/* Scrims for text contrast - enhanced for mobile sunlight readability */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-36 sm:h-44 bg-gradient-to-b from-black/85 via-black/40 to-transparent" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 z-20 h-[520px] w-[720px] rounded-full bg-black/60 blur-[110px]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[72%] sm:h-[65%] bg-gradient-to-t from-slate-950/95 via-black/55 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.45)_100%)]" />
           {/* Warm brand tint */}
           <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tr from-red-950/20 via-transparent to-transparent mix-blend-soft-light" />
         </div>
 
-        {/* Clears the floating navbar */}
-        <div className="relative z-30 pt-20 sm:pt-24 md:pt-28" aria-hidden="true" />
+        {/* Clears floating navbar - responsive headroom */}
+        <div className="relative z-30 pt-16 sm:pt-24 md:pt-28" aria-hidden="true" />
 
         {/* Content */}
-        <div className="relative z-30 mx-auto w-full max-w-7xl px-4 pb-6 sm:px-6 sm:pb-8 md:px-8 md:pb-10">
+        <div className="relative z-30 mx-auto w-full max-w-7xl px-4 pb-5 sm:px-6 sm:pb-8 md:px-8 md:pb-10">
           {/* Re-keyed so the text animates in on every slide change */}
           <div key={currentSlide} className="max-w-3xl" aria-live="polite">
             {/* Location pill */}
-            <div className="hero-fade-up mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-[11px] font-semibold text-white/95 shadow-md backdrop-blur-md sm:mb-4 sm:text-xs">
+            <div className="hero-fade-up mb-2.5 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/45 px-3 py-1 text-[11px] font-semibold text-white/95 shadow-lg backdrop-blur-md sm:mb-4 sm:text-xs">
               <MapPin size={12} className="shrink-0 text-red-400" />
-              <span>{slide.location}</span>
+              <span className="truncate max-w-[250px] sm:max-w-none">{slide.location}</span>
             </div>
 
+            {/* Headline */}
             <h1
-              className={`${outfit.className} hero-fade-up text-[1.95rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-[4.25rem]`}
+              className={`${outfit.className} hero-fade-up text-[1.85rem] xs:text-[2.15rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-[4.25rem]`}
               style={{ animationDelay: "120ms" }}
             >
               {slide.headlineMain}
@@ -197,38 +220,39 @@ export default function HeroSection() {
                 {slide.headlineAccent}
               </span>
               <br />
-              <span className="text-[0.62em] font-semibold text-white/90">
+              <span className="text-[0.58em] sm:text-[0.62em] font-semibold text-white/90">
                 {slide.headlineSub}
               </span>
             </h1>
 
+            {/* Action Buttons - streamlined for mobile touch & screen fit */}
             <div
-              className="hero-fade-up mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 w-full sm:w-auto"
-              style={{ animationDelay: "260ms" }}
+              className="hero-fade-up mt-4 sm:mt-6 flex flex-row items-center gap-2.5 sm:gap-3.5 w-full sm:w-auto"
+              style={{ animationDelay: "240ms" }}
             >
               <Link
                 href="/holidays"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-red-600 px-6 py-3.5 text-sm font-semibold text-white shadow-xl shadow-red-950/50 transition hover:-translate-y-0.5 hover:bg-red-500 active:scale-[0.98] w-full sm:w-auto"
+                className="group inline-flex flex-1 sm:flex-initial items-center justify-center gap-1.5 sm:gap-2 rounded-full bg-red-600 px-4 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-xl shadow-red-950/50 transition hover:-translate-y-0.5 hover:bg-red-500 active:scale-[0.98]"
               >
-                Explore Packages
+                <span>Explore Packages</span>
                 <ArrowRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
+                  size={15}
+                  className="transition-transform group-hover:translate-x-1 shrink-0"
                 />
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full border border-white/35 bg-white/10 px-6 py-3.5 text-sm font-medium text-white shadow-xl backdrop-blur-md transition hover:bg-white hover:text-slate-900 active:scale-[0.98] w-full sm:w-auto"
+                className="inline-flex flex-1 sm:flex-initial items-center justify-center rounded-full border border-white/35 bg-white/10 px-4 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-white shadow-xl backdrop-blur-md transition hover:bg-white hover:text-slate-900 active:scale-[0.98]"
               >
                 Plan Your Journey
               </Link>
             </div>
           </div>
 
-          {/* Bottom bar */}
-          <div className="mt-6 border-t border-white/15 pt-3.5 sm:mt-7 sm:pt-4">
-            <div className="flex items-center justify-between gap-3">
+          {/* Bottom Bar: Indicators & Controls */}
+          <div className="mt-5 border-t border-white/15 pt-3 sm:mt-7 sm:pt-4">
+            <div className="flex items-center justify-between gap-2.5">
               {/* Slide Indicator Pills */}
               <div className="flex items-center gap-1.5 sm:gap-2">
                 {HERO_SLIDES.map((_, i) => (
@@ -251,27 +275,27 @@ export default function HeroSection() {
                   type="button"
                   onClick={prevSlide}
                   aria-label="Previous slide"
-                  className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md transition hover:bg-white hover:text-slate-900 active:scale-95"
+                  className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-md text-white transition hover:bg-white hover:text-slate-900 active:scale-95"
                 >
-                  <ChevronLeft size={17} />
+                  <ChevronLeft size={16} />
                 </button>
                 <button
                   type="button"
                   onClick={nextSlide}
                   aria-label="Next slide"
-                  className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md transition hover:bg-white hover:text-slate-900 active:scale-95"
+                  className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/25 bg-black/30 backdrop-blur-md text-white transition hover:bg-white hover:text-slate-900 active:scale-95"
                 >
-                  <ChevronRight size={17} />
+                  <ChevronRight size={16} />
                 </button>
                 <button
                   type="button"
                   onClick={handleScrollDown}
                   aria-label="Scroll down to search trips"
-                  className="group inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-full border border-white/25 bg-white/10 pl-3 sm:pl-4 pr-1.5 text-xs font-medium backdrop-blur-md transition hover:border-white hover:bg-white hover:text-slate-900"
+                  className="group inline-flex h-8 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-full border border-white/25 bg-black/30 pl-2.5 sm:pl-4 pr-1 text-xs font-medium backdrop-blur-md text-white transition hover:border-white hover:bg-white hover:text-slate-900"
                 >
                   <span className="hidden sm:inline">Explore More</span>
-                  <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/15 transition group-hover:bg-slate-900 group-hover:text-white">
-                    <ArrowDown size={13} className="animate-bounce" />
+                  <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/20 transition group-hover:bg-slate-900 group-hover:text-white">
+                    <ArrowDown size={12} className="animate-bounce" />
                   </span>
                 </button>
               </div>
