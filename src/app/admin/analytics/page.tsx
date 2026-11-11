@@ -638,15 +638,15 @@ export default function AdminAnalyticsPage() {
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Unread Inquiries
+                  Pending Enquiries
                 </span>
                 <MessageSquare size={18} className="text-slate-400" />
               </div>
               <p className="mt-2 text-xl font-bold text-slate-900">
-                {kpis?.unreadContacts || 0}
+                {kpis?.pendingEnquiries || 0}
               </p>
               <p className="mt-1 text-xs text-slate-400">
-                Direct contact form submissions
+                Awaiting response or confirmation
               </p>
             </div>
 

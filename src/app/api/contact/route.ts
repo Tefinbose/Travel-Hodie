@@ -38,21 +38,34 @@ export async function POST(request: Request) {
 
     const { name, email, phone, subject, message } = validation.data;
 
-    const contactMessage = await prisma.contactMessage.create({
-      data: {
-        name,
-        email: email.toLowerCase(),
-        phone: phone || null,
-        subject: subject || null,
-        message,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-      },
-    });
+    // Save contact message and mirror to enquiries so it is visible in Admin -> Enquiries
+    const [contactMessage] = await Promise.all([
+      prisma.contactMessage.create({
+        data: {
+          name,
+          email: email.toLowerCase(),
+          phone: phone || null,
+          subject: subject || null,
+          message,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+        },
+      }),
+      prisma.enquiry.create({
+        data: {
+          name,
+          email: email.toLowerCase(),
+          phone: phone || "",
+          service: subject ? `Contact: ${subject}` : "General Contact",
+          message,
+          status: "PENDING",
+        },
+      }),
+    ]);
 
     return NextResponse.json(
       {

@@ -9,6 +9,7 @@ import FeaturedDestinations from "@/components/home/FeaturedDestinations";
 import FeaturedPackages from "@/components/home/FeaturedPackages";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import CustomTravelCTA from "@/components/home/CustomTravelCTA";
+import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 
 export const instant = false;
 
@@ -93,20 +94,24 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="overflow-hidden bg-white">
-      <HeroSection />
+    <>
+      <main className="overflow-hidden bg-white">
+        <HeroSection />
 
-      <TravelSearchSection />
+        <TravelSearchSection />
 
-      <ServicesSection />
+        <ServicesSection />
 
-      <FeaturedDestinations destinations={destinationData} />
+        <FeaturedDestinations destinations={destinationData} />
 
-      <FeaturedPackages packages={packageData} />
+        <FeaturedPackages packages={packageData} />
 
-      <WhyChooseUs />
+        <WhyChooseUs />
 
-      <CustomTravelCTA />
-    </main>
+        <CustomTravelCTA />
+      </main>
+
+      <FloatingWhatsApp />
+    </>
   );
 }
