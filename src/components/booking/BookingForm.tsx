@@ -12,7 +12,11 @@ import {
   Plus,
   Trash2,
   Loader2,
-  Plane,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Copy,
+  Info,
 } from "lucide-react";
 
 interface Passenger {
@@ -49,6 +53,7 @@ export default function BookingForm({
   const totalAmount = price * passengers.length;
 
   const addPassenger = () => {
+    if (passengers.length >= 20) return;
     setPassengers((current) => [
       ...current,
       { name: "", age: "", gender: "" },
@@ -57,7 +62,6 @@ export default function BookingForm({
 
   const removePassenger = (index: number) => {
     if (passengers.length === 1) return;
-
     setPassengers((current) =>
       current.filter((_, passengerIndex) => passengerIndex !== index)
     );
@@ -77,12 +81,21 @@ export default function BookingForm({
     );
   };
 
+  const copyPrimaryTraveller = () => {
+    if (!customerName.trim()) {
+      setError("Please enter your primary customer name first.");
+      return;
+    }
+    setError("");
+    updatePassenger(0, "name", customerName.trim());
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
 
     if (!customerName.trim() || !email.trim() || !phone.trim()) {
-      setError("Please complete all required customer details.");
+      setError("Please complete all required contact details.");
       return;
     }
 
@@ -102,7 +115,7 @@ export default function BookingForm({
     }
 
     if (passengers.some((passenger) => !passenger.name.trim())) {
-      setError("Please enter the name of every passenger.");
+      setError("Please enter the full name for every traveller.");
       return;
     }
 
@@ -119,9 +132,7 @@ export default function BookingForm({
           email: email.trim(),
           phone: phone.replace(/\D/g, ""),
           packageId,
-          travelDate: new Date(
-            `${travelDate}T00:00:00`
-          ).toISOString(),
+          travelDate: new Date(`${travelDate}T00:00:00`).toISOString(),
           passengers: passengers.map((passenger) => ({
             name: passenger.name.trim(),
             age: passenger.age ? Number(passenger.age) : undefined,
@@ -139,6 +150,7 @@ export default function BookingForm({
       }
 
       const bookingNumber =
+        data.data?.bookingNumber ||
         data.booking?.bookingNumber ||
         data.bookingNumber ||
         "";
@@ -161,62 +173,92 @@ export default function BookingForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      {/* Customer Information */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-[#10243A]">
-            Customer Information
+    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-7">
+      {/* Step Indicator Header */}
+      <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-3.5 sm:p-4 border border-slate-100 text-xs sm:text-sm font-semibold text-slate-500">
+        <div className="flex items-center gap-2 text-red-600 font-bold">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white shadow-sm">
+            1
+          </span>
+          <span>Contact Details</span>
+        </div>
+        <div className="h-0.5 w-6 sm:w-12 bg-slate-200" />
+        <div className="flex items-center gap-2">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-700">
+            2
+          </span>
+          <span className="hidden sm:inline">Travellers</span>
+          <span className="sm:hidden">Travellers</span>
+        </div>
+        <div className="h-0.5 w-6 sm:w-12 bg-slate-200" />
+        <div className="flex items-center gap-2">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-700">
+            3
+          </span>
+          <span>Confirm</span>
+        </div>
+      </div>
+
+      {/* Customer Contact Information */}
+      <section className="rounded-3xl border border-slate-100 bg-white p-5 sm:p-7 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+        <div className="mb-5 sm:mb-6">
+          <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-600">
+            Step 1 of 3
+          </span>
+          <h2 className="mt-1 text-lg sm:text-xl font-extrabold text-[#101c32]">
+            Primary Traveller Details
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
-            Enter the primary traveller's contact details.
+          <p className="mt-1 text-xs sm:text-sm text-slate-500">
+            Booking confirmation and itinerary updates will be sent to this contact.
           </p>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
+          {/* Full Name */}
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Full Name *
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+              Full Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 required
                 maxLength={100}
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                placeholder="Enter your full name"
-                className="w-full rounded-lg border border-slate-300 py-3 pl-12 pr-4 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                placeholder="e.g. Rahul Sharma"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-xs sm:text-sm text-[#101c32] outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:bg-white focus:ring-4 focus:ring-red-500/10"
               />
             </div>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
+          {/* Email & Phone */}
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">
-                Email Address *
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                Email Address <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   required
                   maxLength={150}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="w-full rounded-lg border border-slate-300 py-3 pl-12 pr-4 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                  placeholder="rahul@example.com"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-xs sm:text-sm text-[#101c32] outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:bg-white focus:ring-4 focus:ring-red-500/10"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">
-                Mobile Number *
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                Mobile Number <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 <input
                   type="tel"
                   required
@@ -225,80 +267,105 @@ export default function BookingForm({
                   onChange={(e) =>
                     setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
                   }
-                  placeholder="10-digit mobile number"
-                  className="w-full rounded-lg border border-slate-300 py-3 pl-12 pr-4 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                  placeholder="10-digit number"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-xs sm:text-sm text-[#101c32] outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:bg-white focus:ring-4 focus:ring-red-500/10"
                 />
               </div>
             </div>
           </div>
 
+          {/* Travel Date */}
           <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Preferred Travel Date *
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+              Preferred Departure Date <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <CalendarDays className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <CalendarDays className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 pointer-events-none" />
               <input
                 type="date"
                 required
                 min={new Date().toLocaleDateString("en-CA")}
                 value={travelDate}
                 onChange={(e) => setTravelDate(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 py-3 pl-12 pr-4 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-xs sm:text-sm text-[#101c32] outline-none transition focus:border-red-500 focus:bg-white focus:ring-4 focus:ring-red-500/10"
               />
             </div>
+            <p className="mt-1.5 flex items-center gap-1 text-[11px] text-slate-400">
+              <Info size={12} className="text-slate-400 shrink-0" />
+              Flexible dates? You can refine or reschedule with your concierge.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Passenger Details */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <section className="rounded-3xl border border-slate-100 bg-white p-5 sm:p-7 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-bold text-[#10243A]">
-              Passenger Details
+            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-600">
+              Step 2 of 3
+            </span>
+            <h2 className="mt-1 text-lg sm:text-xl font-extrabold text-[#101c32]">
+              Passenger Information
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Add the details of everyone travelling.
+            <p className="mt-1 text-xs sm:text-sm text-slate-500">
+              Provide names as they appear on official government IDs.
             </p>
           </div>
 
-          <span className="rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-[#C62835]">
-            {passengers.length} Passenger
-            {passengers.length > 1 ? "s" : ""}
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3.5 py-1 text-xs font-bold text-red-600 border border-red-100/60">
+            <Users size={13} />
+            {passengers.length} {passengers.length === 1 ? "Traveller" : "Travellers"}
           </span>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-4">
           {passengers.map((passenger, index) => (
             <div
               key={index}
-              className="rounded-xl border border-slate-200 bg-slate-50 p-5"
+              className="rounded-2xl border border-slate-200/80 bg-slate-50/60 p-4 sm:p-5 transition-all hover:border-slate-300"
             >
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-3.5 flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-[#C62835]" />
-                  <h3 className="font-semibold text-[#10243A]">
-                    Passenger {index + 1}
+                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-red-600 text-xs font-bold text-white shadow-sm">
+                    {index + 1}
+                  </span>
+                  <h3 className="text-xs sm:text-sm font-bold text-[#101c32]">
+                    Traveller {index + 1} {index === 0 && "(Lead Guest)"}
                   </h3>
                 </div>
 
-                {passengers.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removePassenger(index)}
-                    className="flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-800"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    Remove
-                  </button>
-                )}
+                <div className="flex items-center gap-2">
+                  {/* Autofill button for passenger 1 */}
+                  {index === 0 && customerName.trim() && (
+                    <button
+                      type="button"
+                      onClick={copyPrimaryTraveller}
+                      className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 hover:bg-slate-50 hover:text-red-600 transition"
+                      title="Use name entered above"
+                    >
+                      <Copy size={11} />
+                      Same as contact
+                    </button>
+                  )}
+
+                  {passengers.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removePassenger(index)}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700 transition"
+                    >
+                      <Trash2 size={13} />
+                      Remove
+                    </button>
+                  )}
+                </div>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3">
                 <div className="sm:col-span-3">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
-                    Passenger Full Name *
+                  <label className="mb-1 block text-xs font-medium text-slate-600">
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -308,13 +375,13 @@ export default function BookingForm({
                     onChange={(e) =>
                       updatePassenger(index, "name", e.target.value)
                     }
-                    placeholder="Enter passenger name"
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                    placeholder="Enter full name as per ID"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#101c32] outline-none transition focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-1 block text-xs font-medium text-slate-600">
                     Age
                   </label>
                   <input
@@ -325,13 +392,13 @@ export default function BookingForm({
                     onChange={(e) =>
                       updatePassenger(index, "age", e.target.value)
                     }
-                    placeholder="Age"
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                    placeholder="e.g. 28"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#101c32] outline-none transition focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-1 block text-xs font-medium text-slate-600">
                     Gender
                   </label>
                   <select
@@ -339,9 +406,9 @@ export default function BookingForm({
                     onChange={(e) =>
                       updatePassenger(index, "gender", e.target.value)
                     }
-                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#101c32] outline-none transition focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                   >
-                    <option value="">Select gender</option>
+                    <option value="">Select gender (optional)</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
@@ -355,93 +422,94 @@ export default function BookingForm({
         <button
           type="button"
           onClick={addPassenger}
-          className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[#C62835] px-5 py-3 font-semibold text-[#C62835] transition hover:bg-red-50"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-dashed border-red-300 bg-red-50/50 px-4 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 active:scale-[0.98]"
         >
-          <Plus className="h-5 w-5" />
-          Add Another Passenger
+          <Plus size={14} />
+          Add Another Traveller
         </button>
       </section>
 
-      {/* Price Summary */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="text-xl font-bold text-[#10243A]">
-          Booking Summary
-        </h2>
+      {/* Booking Summary Card */}
+      <section className="rounded-3xl border border-slate-100 bg-white p-5 sm:p-7 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+        <div className="mb-4">
+          <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-600">
+            Step 3 of 3
+          </span>
+          <h2 className="mt-1 text-lg sm:text-xl font-extrabold text-[#101c32]">
+            Fare Summary
+          </h2>
+        </div>
 
-        <div className="mt-5 space-y-4">
-          <div className="flex justify-between gap-4 text-sm">
-            <span className="text-slate-500">Selected Package</span>
-            <span className="text-right font-semibold text-[#10243A]">
-              {packageTitle}
+        <div className="space-y-3 rounded-2xl bg-slate-50 p-4 border border-slate-100">
+          <div className="flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-slate-500 font-medium">Package Rate</span>
+            <span className="font-semibold text-[#101c32]">
+              ₹{price.toLocaleString("en-IN")} × {passengers.length} {passengers.length === 1 ? "person" : "persons"}
             </span>
           </div>
 
-          <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Price per passenger</span>
-            <span className="font-semibold text-[#10243A]">
-              ₹{price.toLocaleString("en-IN")}
-            </span>
+          <div className="flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-slate-500 font-medium">Taxes & Service Coordination</span>
+            <span className="font-semibold text-emerald-600">Included</span>
           </div>
 
-          <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Number of passengers</span>
-            <span className="font-semibold text-[#10243A]">
-              {passengers.length}
-            </span>
-          </div>
-
-          <div className="border-t border-dashed border-slate-300 pt-4">
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-lg font-bold text-[#10243A]">
+          <div className="pt-3 border-t border-slate-200/60 flex items-baseline justify-between">
+            <div>
+              <span className="text-sm sm:text-base font-extrabold text-[#101c32]">
                 Estimated Total
               </span>
-              <span className="text-2xl font-bold text-[#C62835]">
-                ₹{totalAmount.toLocaleString("en-IN")}
-              </span>
+              <p className="text-[11px] text-slate-400">All inclusive indicative pricing</p>
             </div>
+            <span className="text-xl sm:text-2xl font-extrabold text-red-600">
+              ₹{totalAmount.toLocaleString("en-IN")}
+            </span>
           </div>
         </div>
 
-        <p className="mt-4 text-xs leading-5 text-slate-500">
-          This is an estimated package amount based on the current displayed
-          price. Final pricing and availability will be confirmed by our team.
-        </p>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
+            <span>Pay nothing online today</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck size={13} className="text-emerald-500 shrink-0" />
+            <span>Dedicated concierge confirmation</span>
+          </div>
+        </div>
       </section>
 
       {/* Error Message */}
       {error && (
         <div
           role="alert"
-          className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+          className="rounded-2xl border border-red-200 bg-red-50 p-4 text-xs sm:text-sm font-semibold text-red-700 shadow-sm"
         >
           {error}
         </div>
       )}
 
-      {/* Submit */}
+      {/* Submit Action */}
       <div>
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#C62835] px-6 py-4 text-base font-bold text-white shadow-lg shadow-red-900/10 transition hover:bg-[#a91e2a] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red-600 px-7 py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-red-950/20 transition hover:-translate-y-0.5 hover:bg-red-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? (
             <>
-              <Loader2 className="h-5 w-5 animate-spin" />
-              Submitting Booking...
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Submitting Request...
             </>
           ) : (
             <>
-              <Plane className="h-5 w-5" />
-              Submit Booking Request
+              Request Booking Confirmation
+              <ArrowRight size={16} />
             </>
           )}
         </button>
 
-        <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-          Submitting this form sends a booking request only. No online payment
-          is collected at this stage. Our team will contact you to confirm
-          your booking.
+        <p className="mt-3 text-center text-xs leading-relaxed text-slate-400">
+          Submitting this request does not charge your card. Our team will verify room & flight availability and contact you with final itinerary details.
         </p>
       </div>
     </form>

@@ -83,7 +83,7 @@ export default function PackageDetails({
       </section>
 
       {/* Package Content */}
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:py-10 md:px-8 md:py-12 lg:grid-cols-[1fr_360px] lg:gap-10">
+      <section className="mx-auto grid max-w-7xl items-start gap-8 px-5 py-8 sm:py-10 md:px-8 md:py-12 lg:grid-cols-[1fr_360px] lg:gap-10">
         {/* Left Content */}
         <div>
           <div>
@@ -162,8 +162,8 @@ export default function PackageDetails({
           </div>
         </div>
 
-        {/* Booking Card */}
-        <aside className="h-fit rounded-3xl border border-slate-100 bg-white p-6 shadow-xl shadow-slate-900/5">
+        {/* Booking Card - Sticky on desktop */}
+        <aside className="h-fit rounded-3xl border border-slate-100 bg-white p-6 shadow-xl shadow-slate-900/5 lg:sticky lg:top-24 z-10 transition-shadow">
           <span className="text-xs font-bold uppercase tracking-wider text-red-600">
             Package Price
           </span>

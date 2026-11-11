@@ -201,9 +201,9 @@ export default function ServicePage({
         </div>
       </section>
 
-      {/* Explore Other Services Quick Navigation */}
-      <section className="mx-auto max-w-7xl px-5 py-8 sm:py-10 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+      {/* Explore Other Services Marquee */}
+      <section className="mx-auto max-w-7xl px-5 py-8 sm:py-10 md:px-8 overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
           <div>
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-600">
               Complete Travel Solutions
@@ -221,24 +221,32 @@ export default function ServicePage({
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
-          {OTHER_SERVICES.map((service) => {
-            const Icon = service.icon;
-            return (
-              <Link
-                key={service.href}
-                href={service.href}
-                className="group flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white p-3.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-md"
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 text-slate-600 transition-colors group-hover:bg-red-50 group-hover:text-red-600">
-                  <Icon size={17} />
-                </span>
-                <span className="mt-2 text-xs font-bold text-[#101c32] group-hover:text-red-600 transition-colors">
-                  {service.name}
-                </span>
-              </Link>
-            );
-          })}
+        {/* Marquee Track Container with Edge Fade Masks */}
+        <div className="relative w-full overflow-hidden">
+          {/* Edge gradient masks for smooth fade */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-20 bg-gradient-to-l from-white via-white/80 to-transparent" />
+
+          {/* Infinite Scrolling Track */}
+          <div className="flex animate-marquee-left pause-on-hover py-2 gap-3 sm:gap-4">
+            {[...OTHER_SERVICES, ...OTHER_SERVICES, ...OTHER_SERVICES, ...OTHER_SERVICES].map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <Link
+                  key={`${service.name}-${index}`}
+                  href={service.href}
+                  className="group flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white px-5 py-4 min-w-[130px] sm:min-w-[145px] text-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-lg shrink-0"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-600 border border-slate-100/80 transition-colors group-hover:bg-red-50 group-hover:text-red-600 group-hover:border-red-100">
+                    <Icon size={18} />
+                  </span>
+                  <span className="mt-2.5 text-xs font-bold whitespace-nowrap text-[#101c32] group-hover:text-red-600 transition-colors">
+                    {service.name}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
 

@@ -4,6 +4,15 @@ import { prisma } from "@/lib/prisma";
 import BookingForm from "@/components/booking/BookingForm";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  ChevronRight,
+  MapPin,
+  Clock,
+  ShieldCheck,
+  Headphones,
+  ArrowRight,
+  MessageCircle,
+} from "lucide-react";
 
 export const instant = false;
 
@@ -44,60 +53,60 @@ export default async function BookingPage({
   const price = Number(packageData.price);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-white">
       {/* Page Header */}
-      <section className="relative overflow-hidden bg-[#14243A] px-5 pb-16 pt-28 text-center text-white md:pt-36">
+      <section className="relative overflow-hidden bg-[#071324] pb-8 pt-20 text-center text-white sm:pb-9 sm:pt-24 md:pb-10 md:pt-26">
         <div className="absolute inset-0 z-0">
           <Image
             src={packageData.image || "/images/hero/tropical-island-lagoon.jpg"}
             alt={packageData.title}
             fill
             priority
-            quality={90}
-            className="object-cover object-center brightness-[0.7] contrast-[1.05]"
+            quality={95}
+            className="object-cover object-center brightness-[0.85] contrast-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#14243A]/90 via-[#14243A]/85 to-[#14243A]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#071324]/80 via-[#071324]/60 to-[#071324]/85" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-4xl">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#E5B96D]">
-            TravelHodie Reservations
-          </p>
-
-          <h1 className="text-3xl font-bold sm:text-5xl">
-            Complete Your Booking
+        <div className="relative z-10 mx-auto max-w-4xl px-5 md:px-8">
+          <h1 className="mx-auto max-w-3xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[42px] leading-tight md:leading-[1.18]">
+            Complete Your{" "}
+            <span className="bg-gradient-to-r from-red-500 via-rose-400 to-orange-300 bg-clip-text text-transparent">
+              Booking.
+            </span>
           </h1>
 
-          <p className="mt-4 text-white/75">
-            Share your travel details and let us help plan your journey.
+          <p className="mx-auto mt-3 max-w-2xl text-xs sm:text-sm md:text-[15px] leading-relaxed text-slate-300">
+            Share your preferred travel dates and passenger details. Our travel concierge will verify availability and assist you with every arrangement.
           </p>
         </div>
       </section>
 
-      {/* Breadcrumb */}
-      <div className="mx-auto max-w-6xl px-5 pt-8">
-        <div className="text-sm text-gray-500">
-          <Link href="/" className="hover:text-[#C62835]">
+      {/* Breadcrumb Navigation */}
+      <div className="mx-auto max-w-6xl px-5 pt-6 sm:pt-8">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-slate-500">
+          <Link href="/" className="transition hover:text-red-600">
             Home
           </Link>
-          {" / "}
-          <Link href="/holidays" className="hover:text-[#C62835]">
+          <ChevronRight size={13} className="text-slate-400" />
+          <Link href="/holidays" className="transition hover:text-red-600">
             Holidays
           </Link>
-          {" / "}
+          <ChevronRight size={13} className="text-slate-400" />
           <Link
             href={`/holidays/${packageData.slug}`}
-            className="hover:text-[#C62835]"
+            className="max-w-[200px] truncate transition hover:text-red-600 sm:max-w-none"
           >
             {packageData.title}
           </Link>
-          {" / "}
-          <span className="text-[#14243A]">Booking</span>
-        </div>
+          <ChevronRight size={13} className="text-slate-400" />
+          <span className="font-semibold text-[#101c32]">Booking Request</span>
+        </nav>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 lg:grid-cols-[1fr_340px]">
-        {/* Booking Form */}
+      {/* Main Content Area */}
+      <div className="mx-auto grid max-w-6xl items-start gap-8 px-5 py-6 sm:py-8 md:py-10 lg:grid-cols-[1fr_360px]">
+        {/* Booking Form Component */}
         <div>
           <BookingForm
             packageId={packageData.id}
@@ -106,56 +115,91 @@ export default async function BookingPage({
           />
         </div>
 
-        {/* Selected Package */}
-        <aside className="h-fit overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-          {packageData.image ? (
-            <img
-              src={packageData.image}
-              alt={packageData.title}
-              className="h-52 w-full object-cover"
-            />
-          ) : (
-            <div className="flex h-52 items-center justify-center bg-gray-100 text-gray-400">
-              TravelHodie
-            </div>
-          )}
+        {/* Selected Package Card - Sticky on desktop */}
+        <aside className="h-fit rounded-3xl border border-slate-100 bg-white shadow-xl shadow-slate-900/5 lg:sticky lg:top-24 z-10 overflow-hidden transition-all">
+          {/* Card Top Image */}
+          <div className="relative h-48 w-full bg-slate-100">
+            {packageData.image ? (
+              <Image
+                src={packageData.image}
+                alt={packageData.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 360px"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center bg-slate-100 text-xs font-semibold text-slate-400">
+                TravelHodie
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+              <MapPin size={12} className="text-red-400" />
+              {packageData.destination.name}, {packageData.destination.country}
+            </span>
+          </div>
 
-          <div className="p-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#C62835]">
-              Selected Holiday Package
-            </p>
+          <div className="p-5 sm:p-6">
+            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-red-600">
+              Selected Package
+            </span>
 
-            <h2 className="mt-2 text-xl font-bold text-[#14243A]">
+            <h2 className="mt-1.5 text-base sm:text-lg font-extrabold leading-snug text-[#101c32]">
               {packageData.title}
             </h2>
 
-            <p className="mt-2 text-sm text-gray-500">
-              {packageData.destination.name},{" "}
-              {packageData.destination.country}
-            </p>
-
-            <div className="mt-5 border-t border-gray-100 pt-5">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Duration</span>
-                <span className="font-medium text-gray-800">
+            {/* Price & Duration Stats */}
+            <div className="my-4 space-y-2.5 rounded-2xl bg-slate-50 p-4 border border-slate-100">
+              <div className="flex items-center justify-between text-xs sm:text-sm">
+                <span className="flex items-center gap-1.5 text-slate-500 font-medium">
+                  <Clock size={13} className="text-red-500" />
+                  Duration
+                </span>
+                <span className="font-bold text-[#101c32]">
                   {packageData.duration}
                 </span>
               </div>
 
-              <div className="mt-4 flex justify-between text-sm">
-                <span className="text-gray-500">Price per person</span>
-                <span className="font-bold text-[#C62835]">
+              <div className="flex items-center justify-between text-xs sm:text-sm pt-2 border-t border-slate-200/60">
+                <span className="text-slate-500 font-medium">Price per person</span>
+                <span className="text-base font-extrabold text-red-600">
                   ₹{price.toLocaleString("en-IN")}
                 </span>
               </div>
             </div>
 
-            <Link
-              href={`/holidays/${packageData.slug}`}
-              className="mt-6 block text-center text-sm font-semibold text-[#14243A] hover:text-[#C62835]"
-            >
-              View Package Details →
-            </Link>
+            {/* Trust Points */}
+            <div className="space-y-2 text-xs text-slate-500 pt-1">
+              <div className="flex items-center gap-2">
+                <ShieldCheck size={14} className="text-emerald-500 shrink-0" />
+                <span>Zero hidden booking charges</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Headphones size={14} className="text-emerald-500 shrink-0" />
+                <span>Dedicated concierge coordination</span>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="mt-5 space-y-2.5 pt-2">
+              <Link
+                href={`/holidays/${packageData.slug}`}
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-[#101c32] shadow-sm transition hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98]"
+              >
+                View Package Details
+                <ArrowRight size={13} />
+              </Link>
+
+              <a
+                href="https://wa.me/918921083214"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 px-4 py-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 active:scale-[0.98]"
+              >
+                <MessageCircle size={13} />
+                Need help? Chat on WhatsApp
+              </a>
+            </div>
           </div>
         </aside>
       </div>
