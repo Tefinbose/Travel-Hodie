@@ -121,26 +121,28 @@ export default function Navbar() {
         <div className="relative z-10 mx-auto max-w-7xl pointer-events-auto">
           {/* The pill */}
           <div
-            className={`flex items-center justify-between gap-2 rounded-full px-3 ring-1 ring-black/5 backdrop-blur-xl transition-all duration-300 motion-reduce:transition-none md:px-4 lg:gap-4 ${
+            className={`flex items-center justify-between gap-2 rounded-full px-3.5 ring-1 ring-black/5 backdrop-blur-xl transition-all duration-300 motion-reduce:transition-none md:px-5 lg:gap-4 ${
               scrolled
-                ? "h-14 bg-white/95 shadow-xl shadow-[#101D35]/15 md:h-16"
-                : "h-16 bg-white/90 shadow-xl shadow-black/10 md:h-[72px]"
+                ? "h-15 bg-white/95 shadow-xl shadow-[#101D35]/15 md:h-[68px] lg:h-[72px]"
+                : "h-16 sm:h-[70px] bg-white/90 shadow-xl shadow-black/10 md:h-[76px] lg:h-[84px]"
             }`}
           >
             {/* Logo */}
             <Link
               href="/"
-              className="flex shrink-0 items-center rounded-full pl-1 outline-none transition hover:opacity-90 focus-visible:ring-2 focus-visible:ring-[#C62835]/60 md:pl-2"
+              className="flex shrink-0 items-center rounded-full pl-0.5 outline-none transition hover:opacity-95 focus-visible:ring-2 focus-visible:ring-[#C62835]/60 md:pl-1.5"
               onClick={() => setMobileMenuOpen(false)}
             >
               <Image
                 src="/logo/travelhodie.png"
                 alt="TravelHodie"
-                width={280}
-                height={140}
+                width={360}
+                height={180}
                 priority
                 className={`w-auto object-contain transition-all duration-300 motion-reduce:transition-none ${
-                  scrolled ? "h-9 md:h-11" : "h-10 md:h-12"
+                  scrolled
+                    ? "h-10 xs:h-11 md:h-12 lg:h-13 xl:h-14"
+                    : "h-11 xs:h-12 sm:h-13 md:h-14 lg:h-16 xl:h-[68px]"
                 }`}
               />
             </Link>
