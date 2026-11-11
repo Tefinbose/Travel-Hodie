@@ -140,16 +140,17 @@ export default function EnquiryForm() {
             htmlFor="phone"
             className="mb-2 block text-sm font-semibold text-gray-700"
           >
-            Phone Number
+            Phone Number *
           </label>
           <input
             id="phone"
             name="phone"
             type="tel"
+            required
             maxLength={15}
             value={formData.phone}
             onChange={handleChange}
-            placeholder="Enter your phone number"
+            placeholder="10-digit mobile number"
             className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-[#C62835] focus:ring-2 focus:ring-[#C62835]/10"
           />
         </div>

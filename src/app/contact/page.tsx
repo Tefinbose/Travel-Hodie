@@ -28,8 +28,10 @@ export default async function ContactPage({
     <main className="min-h-screen bg-gray-50">
       <ContactHero />
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-2 lg:gap-16">
-        <ContactInfo />
+      <section className="mx-auto grid max-w-7xl items-start gap-12 px-6 py-12 md:py-16 lg:grid-cols-2 lg:gap-16">
+        <div className="lg:sticky lg:top-24">
+          <ContactInfo />
+        </div>
 
         <ContactForm packageName={packageName} />
       </section>

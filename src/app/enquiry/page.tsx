@@ -71,7 +71,7 @@ export default function EnquiryPage() {
       </div>
 
       {/* Main Section */}
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-10 sm:py-14 lg:grid-cols-[1fr_380px]">
+      <section className="mx-auto grid max-w-7xl items-start gap-10 px-5 py-8 sm:py-10 md:py-12 lg:grid-cols-[1fr_380px]">
         {/* Enquiry Form */}
         <div>
           <div className="mb-6 sm:mb-8">
@@ -94,8 +94,8 @@ export default function EnquiryPage() {
           </div>
         </div>
 
-        {/* Contact Information */}
-        <aside className="h-fit rounded-3xl bg-[#101c32] p-7 text-white shadow-xl shadow-slate-900/10 border border-slate-800">
+        {/* Contact Information - Sticky on desktop */}
+        <aside className="h-fit rounded-3xl bg-[#101c32] p-7 text-white shadow-xl shadow-slate-900/10 border border-slate-800 lg:sticky lg:top-24 z-10 transition-all">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">
             Contact TravelHodie
           </span>

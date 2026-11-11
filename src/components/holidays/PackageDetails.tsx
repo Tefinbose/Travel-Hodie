@@ -55,12 +55,7 @@ export default function PackageDetails({
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 md:px-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-0.5 text-[11px] font-bold uppercase tracking-[0.18em] text-red-400">
-            <Compass size={13} className="text-red-400" />
-            Holiday Package
-          </div>
-
-          <h1 className="mt-3 max-w-3xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[42px] leading-tight md:leading-[1.18]">
+          <h1 className="max-w-3xl text-2xl font-extrabold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[42px] leading-tight md:leading-[1.18]">
             {packageData.title}
           </h1>
 
